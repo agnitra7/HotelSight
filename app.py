@@ -15,7 +15,7 @@ st.markdown(
 )
 
 # Add a visual header image or logo (optional: replace with your logo URL)
-st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Police_Badge.svg/1200px-Police_Badge.svg.png", 
+st.image("https://www.kxan.com/wp-content/uploads/sites/40/2022/10/austin-police-patch-graphic-GFX-2.jpg", 
          caption="Fighting Human Trafficking in Hotels", use_column_width=True)
 
 # Step 1: Load Hotel ID CSV (Hidden from the user)
