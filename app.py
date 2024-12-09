@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 import numpy as np
+import time
 
 # Title of the app
 st.title("Hotel Image Identifier")
@@ -36,7 +37,18 @@ if uploaded_image is not None:
     image = Image.open(uploaded_image)
     st.image(image, caption="Uploaded Hotel Image", use_column_width=True)
 
-    # Step 3: Select top 20 and randomly pick 5 based on probabilities
+    # Step 3: Simulate CNN Prediction with Progress Bar
+    st.header("Predicting Hotel ID...")
+    progress_bar = st.progress(0)
+
+    # Simulate a CNN prediction process
+    for percent_complete in range(100):
+        time.sleep(0.03)  # Simulate computation time
+        progress_bar.progress(percent_complete + 1)
+
+    st.success("Prediction Complete!")
+
+    # Step 4: Select top 20 and randomly pick 5 based on probabilities
     # Get top 20 hotel_ids based on probabilities
     top_20_hotels = data[['hotel_id', 'probability']].drop_duplicates().nlargest(20, "probability")
 
