@@ -40,11 +40,14 @@ if uploaded_image is not None:
     # Step 3: Simulate CNN Prediction with Progress Bar
     st.header("Predicting Hotel ID...")
     progress_bar = st.progress(0)
+    progress_text = st.empty()
 
-    # Simulate a CNN prediction process
-    for percent_complete in range(100):
-        time.sleep(0.03)  # Simulate computation time
-        progress_bar.progress(percent_complete + 1)
+    # Simulate a CNN prediction process over 30 seconds
+    total_time = 30  # in seconds
+    for percent_complete in range(101):  # Progress from 0 to 100%
+        time.sleep(total_time / 100)  # Spread 30 seconds over 100 updates
+        progress_bar.progress(percent_complete)
+        progress_text.write(f"Progress: {percent_complete}%")
 
     st.success("Prediction Complete!")
 
