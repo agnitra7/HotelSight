@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image
+import numpy as np
 
 # Title of the app
 st.title("Hotel Image Identifier")
@@ -35,11 +36,19 @@ if uploaded_image is not None:
     image = Image.open(uploaded_image)
     st.image(image, caption="Uploaded Hotel Image", use_column_width=True)
 
-    # Mockup logic: Select top 5 hotel IDs with the highest probabilities
-    top_5_hotels = data[['hotel_id', 'probability']].drop_duplicates().nlargest(5, "probability")
+    # Step 3: Select top 20 and randomly pick 5 based on probabilities
+    # Get top 20 hotel_ids based on probabilities
+    top_20_hotels = data[['hotel_id', 'probability']].drop_duplicates().nlargest(20, "probability")
 
-    # Display top 5 hotel IDs (without probabilities)
-    st.header("Top 5 Hotel IDs")
-    st.write("Here are the top 5 most probable hotel IDs:")
-    for index, row in top_5_hotels.iterrows():
+    # Randomly sample 5 hotel_ids from the top 20 using their probabilities as weights
+    sampled_hotels = top_20_hotels.sample(
+        n=5,
+        weights="probability",
+        random_state=np.random.randint(0, 1000)  # Ensure reproducibility for debugging
+    )
+
+    # Display top 5 randomly sampled hotel IDs
+    st.header("Top 5 Hotel IDs (Randomly Selected from Top 20)")
+    st.write("Here are the top 5 randomly selected hotel IDs:")
+    for index, row in sampled_hotels.iterrows():
         st.write(f"Hotel ID: {row['hotel_id']}")
