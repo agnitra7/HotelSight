@@ -36,8 +36,7 @@ if uploaded_image is not None:
     st.image(image, caption="Uploaded Hotel Image", use_column_width=True)
 
     # Mockup logic: Select top 5 hotel IDs with the highest probabilities
-    # Replace this section with your actual model inference logic
-    top_5_hotels = data[['hotel_id']].drop_duplicates().nlargest(5, "probability")
+    top_5_hotels = data[['hotel_id', 'probability']].drop_duplicates().nlargest(5, "probability")
 
     # Display top 5 hotel IDs (without probabilities)
     st.header("Top 5 Hotel IDs")
