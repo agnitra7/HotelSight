@@ -5,8 +5,8 @@ from PIL import Image
 # Title of the app
 st.title("Hotel Image Identifier")
 
-# Step 1: Load Hotel ID Probabilities CSV
-st.header("Step 1: Load Hotel ID Probabilities CSV")
+# Step 1: Load Hotel ID CSV
+st.header("Step 1: Load Hotel ID CSV")
 
 # GitHub raw URL for your CSV file
 csv_url = "https://raw.githubusercontent.com/agnitra7/aml_term_project/main/40k_hotel_id_only.csv"
@@ -18,9 +18,14 @@ try:
     st.dataframe(data.head())
 
     # Ensure required columns exist
-    if "hotel_id" not in data.columns or "probability" not in data.columns:
-        st.error("CSV must contain 'hotel_id' and 'probability' columns.")
+    if "hotel_id" not in data.columns:
+        st.error("CSV must contain 'hotel_id' column.")
         st.stop()
+
+    # Manually calculate probabilities (equal probabilities in this example)
+    data['probability'] = 1 / len(data)
+    st.write("Probabilities have been calculated and added to the dataset:")
+    st.dataframe(data.head())
 except Exception as e:
     st.error("Failed to fetch the CSV file. Please check the URL or file format.")
     st.write(e)
@@ -47,4 +52,4 @@ if uploaded_image is not None:
     # Display the results as a list
     st.write("Detailed Results:")
     for index, row in top_5_hotels.iterrows():
-        st.write(f"Hotel ID: {row['hotel_id']} | Probability: {row['probability']:.2f}")
+        st.write(f"Hotel ID: {row['hotel_id']} | Probability: {row['probability']:.6f}")
