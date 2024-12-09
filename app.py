@@ -22,8 +22,12 @@ try:
         st.error("CSV must contain 'hotel_id' column.")
         st.stop()
 
-    # Manually calculate probabilities (equal probabilities in this example)
-    data['probability'] = 1 / len(data)
+    # Calculate probabilities for each hotel_id
+    hotel_counts = data['hotel_id'].value_counts(normalize=True).reset_index()
+    hotel_counts.columns = ['hotel_id', 'probability']
+
+    # Merge probabilities back to the original dataframe
+    data = data.merge(hotel_counts, on='hotel_id', how='left')
     st.write("Probabilities have been calculated and added to the dataset:")
     st.dataframe(data.head())
 except Exception as e:
@@ -43,7 +47,7 @@ if uploaded_image is not None:
     # Mockup logic: Select top 5 hotel IDs with the highest probabilities
     # Replace this section with your actual model inference logic
     st.header("Step 3: Top 5 Hotel IDs")
-    top_5_hotels = data.nlargest(5, "probability")
+    top_5_hotels = data[['hotel_id', 'probability']].drop_duplicates().nlargest(5, "probability")
 
     # Display top 5 hotel IDs
     st.write("Here are the top 5 most probable hotel IDs:")
