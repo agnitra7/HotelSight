@@ -44,11 +44,10 @@ if uploaded_image is not None:
     sampled_hotels = top_20_hotels.sample(
         n=5,
         weights="probability",
-        random_state=np.random.randint(0, 1000)  # Ensure reproducibility for debugging
+        random_state=np.random.randint(0, 1000)  # Optional for reproducibility
     )
 
-    # Display top 5 randomly sampled hotel IDs
-    st.header("Top 5 Hotel IDs (Randomly Selected from Top 20)")
-    st.write("Here are the top 5 randomly selected hotel IDs:")
+    # Display top 5 hotel IDs (randomly sampled)
+    st.header("Top 5 Hotel IDs")
     for index, row in sampled_hotels.iterrows():
         st.write(f"Hotel ID: {row['hotel_id']}")
